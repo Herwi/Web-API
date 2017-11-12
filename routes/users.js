@@ -13,19 +13,57 @@ router.get('/', function(req, res, next) {
         }
         else
         {
-            var selectSQL = "SELECT id, name, surname FROM users";
+            var selectSQL = "SELECT id, name, surname, birthDate FROM users";
             var query = conn.query(selectSQL, function(err,result){
                 if(err)
                 {
                     console.error('SQL error: ', err);
                     return next(err);
                 }
-                var Users = new Array();
+                var users = new Array();
                 for(var i = 0; i < result.length; i++) {
-                    var CurrentUser = new User(result[i].id, result[i].name, result[i].surname);
-                    Users.push(CurrentUser);
+                    var currentUser = new User(result[i].id, result[i].name, result[i].surname, result[i].birthDate);
+                    users.push(currentUser);
                 }
-                res.render('users', { title: 'Users', isUsers: true, Users: Users });
+                res.render('users', { title: 'Users', isUsers: true, users: users });
+            });
+        }
+    });
+});
+
+router.get('/:id', function(req, res, next) {
+    req.getConnection(function(err,conn){
+        if(err)
+        {
+            console.error('SQL connection error: ', err);
+            return next(err);
+        }
+        else
+        {
+            var selectSQL = "SELECT id, name, surname, DATE_FORMAT(birthDate, '%d %M %Y') AS 'birthDate' FROM users WHERE id=" + req.params.id;
+            var query = conn.query(selectSQL, function(err,result){
+                if(err)
+                {
+                    console.error('SQL error: ', err);
+                    return next(err);
+                }
+                if(result.length == 0)
+                {
+                    res.render('user-details', {
+                        title: 'Error',
+                        doesUserExists: false,
+                        id: req.params.id
+                    });
+                }
+                else
+                {
+                    var currentUser = new User(result[0].id, result[0].name, result[0].surname, result[0].birthDate);
+                    res.render('user-details', {
+                        title: currentUser.name + " " + currentUser.surname,
+                        doesUserExists: true,
+                        user: currentUser
+                    });
+                }
             });
         }
     });

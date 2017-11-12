@@ -9,8 +9,8 @@
         </tr>
     </thead>
     <tbody>
-        {{#each Users}}
-            <tr>
+        {{#each users}}
+            <tr style="cursor: pointer;" onclick="window.location.href = '/users/{{this.id}}';">
                 <td>{{this.id}}</td>
                 <td>{{this.name}}</td>
                 <td>{{this.surname}}</td>

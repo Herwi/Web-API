@@ -1,0 +1,8 @@
+<h1>{{title}}</h1>
+{{#if doesUserExists}}
+    <p>User id: {{user.id}}</br>
+    Date of birth: {{user.birthDate}}</p>
+{{else}}
+    <p>Cannot find user with specified ID: {{id}}</p>
+{{/if}}
+

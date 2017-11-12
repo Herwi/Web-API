@@ -20,12 +20,11 @@
       <div class="header clearfix">
           <nav>
               <ul class="nav nav-pills pull-right">
-                  <li role="presentation" class="active"><a href="#">Home</a></li>
-                  <li role="presentation"><a href="#">About</a></li>
-                  <li role="presentation"><a href="#">Contact</a></li>
+                  <li role="presentation" {{#if isHome}} class="active"{{/if}}><a href="/">Home</a></li>
+                  <li role="presentation" {{#if isUsers}} class="active"{{/if}}><a href="/users">Users</a></li>
               </ul>
           </nav>
-          <h3 class="text-muted">Project name</h3>
+          <h3 class="text-muted">PPR</h3>
       </div>
 
       <div class="row marketing">

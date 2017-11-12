@@ -1,5 +1,21 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
-{{#each results}}
-    {{this}}
-{{/each}}
+<p>Users list</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Surname</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each results}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.surname}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+
+</table>

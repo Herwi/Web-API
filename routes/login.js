@@ -30,7 +30,7 @@ router.post('/submit', function(req, res, next) {
             }
             else
             {
-                var selectSQL = "SELECT id, name, surname, DATE_FORMAT(birthDate, '%d %M %Y') AS 'birthDate', password FROM users WHERE login='" + req.body.inputLogin +"'";
+                var selectSQL = "SELECT id, name, surname, DATE_FORMAT(birthDate, '%d %M %Y') AS 'birthDate', password FROM users WHERE login='" + req.body.inputLogin + "'";
                 var query = conn.query(selectSQL, function(err,result){
                     if(err)
                     {
@@ -40,7 +40,7 @@ router.post('/submit', function(req, res, next) {
                     if(result.length == 0)
                     {
                         req.session.success = false;
-                        req.session.errors = "Username or password is invalid.";
+                        //req.session.errors = "Username or password is invalid.";
                     }
                     else
                     {
@@ -52,7 +52,7 @@ router.post('/submit', function(req, res, next) {
                         }
                         else
                         {
-                            req.session.errors = "Username or password is invalid.";
+                            //req.session.errors = "Username or password is invalid.";
                             req.session.success = false;
                             req.session.user = null;
                         }

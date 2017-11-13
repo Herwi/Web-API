@@ -6,6 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var connection = require('express-myconnection');
+var expressValidator = require('express-validator');
+var expressSession = require('express-session');
+var MySQLStore = require('express-mysql-session')(expressSession);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -25,13 +28,38 @@ app.use(connection(mysql, {
     database: "admin_ppr"
 }, 'request'));
 
+// session stored in mysql
+var sessionStore = new MySQLStore({
+    host: "91.189.36.16",
+    port: 3306,
+    user: "admin_ppr",
+    password: "1Tm6PeF9yK",
+    database: "admin_ppr",
+    createDatabaseTable: true,
+    schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
+});
+
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSession({
+    secret: 'extrasecret',
+    store: sessionStore,
+    saveUninitialized: false,
+    resave: false
+}));
 
 //routing
 app.use('/', index);

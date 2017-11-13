@@ -24,11 +24,31 @@
       <div class="card card-container">
           <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
           <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+          {{#if success}}
+              <div class="alert alert-success">
+                  <string>Successfully</string> logged in, you will be automatically redirected in few seconds.
+                  <script>
+                      setTimeout(function () {
+                          // after 2 seconds
+                          window.location = "/";
+                      }, 5000)
+                  </script>
+              </div>
+          {{else}}
+              {{#if errors}}
+                  <div class="alert alert-danger">
+                      <strong>Error!</strong>
+                      {{#each errors}}
+                          {{this.msg}}<br>
+                      {{/each}}
+                  </div>
+              {{/if}}
+          {{/if}}
           <p id="profile-name" class="profile-name-card"></p>
-          <form class="form-signin">
+          <form action="login/submit" method="POST" class="form-signin">
               <span id="reauth-email" class="reauth-email"></span>
-              <input type="login" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <input type="login" id="inputLogin" name="inputLogin" class="form-control" placeholder="Login" required autofocus>
+              <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
               <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
           </form><!-- /form -->
           <p style="text-align: center;">Haven't got account? <a href="#">Register now.</a></p>
